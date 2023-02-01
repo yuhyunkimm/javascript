@@ -11,34 +11,35 @@
 </head>
 
 <body>
-    <h1>게시글 수정하기</h1>
+    <h1>게시글목록</h1>
     <hr>
+    <div>
+        <input type="text" id="number" placeholder="search by id ...">
+        <button onclick="search()">검색</button>
+    </div>
     <form>
         <input type="text" id="id" placeholder="Enter id">
         <input type="text" id="title" placeholder="Enter title">
         <input type="text" id="body" placeholder="Enter body">
         <input type="text" id="userId" placeholder="Enter userId">
         <button type="button" onclick="updateById()">수정하기</button>
+        <button type="button" onclick="deleteById()">삭제하기</button>
     </form>
 
     <script>
         function updateById() {
-            // 1. 값 받아오기
             let post = {
                 id: $("#id").val(),
                 title: $("#title").val(),
                 body: $("#body").val(),
-                userId: $("#userId").val()
-            };
-            // 2. 통신하기
-            //$.ajax().done().fail(); = fetch().then().then();
+                userId: $("#userId").val(),
+            }
             $.ajax({
                 type: "put",
-                url: `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+                url: `http://jsonplaceholder.typicode.com/posts/${post.id}`,
                 data: JSON.stringify(post),
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                    // contentType:"application/json; charset=UTF-8" = headers사용과 동일
+                    "Content-type": "application/json; charset=UTF-8",
                 },
                 dataType: "json"
             }).done((res) => {
@@ -47,6 +48,30 @@
                 console.log("body", res.body);
                 console.log("userId", res.userId);
             }).fail((err) => {
+                console.log(err);
+            });
+        }
+
+        function deleteById() {
+            // 1. 사용자 값 받아오기
+            let id = $("#id").val();
+
+            // 2. 유효성 검사(프론트)
+            if (id == "" || id == "undefined") {
+                alert("삭제할 id를 입력해주세요.")
+                return;
+            }
+
+            // 3. 통신하기
+            $.ajax({
+                type: "delete",
+                url: `https://jsonplaceholder.typicode.com/posts/${id}`,
+                // return 값이 없다 = 상태코드로 확인
+            }).done((res) => {
+                alert("성공");
+                location.href = "http://www.naver.com";
+            }).fail((err) => {
+                alert("실패");
                 console.log(err);
             });
 
