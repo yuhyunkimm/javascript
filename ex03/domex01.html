@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>의자</h1>
+    <div>탁자</div>
+    <h3>책상</h3>
+
+    <button id="btnSeat">의자없애기</button>
+    <script>
+        let e1 = document.querySelector("#btnSeat");
+        console.log(e1);
+
+        e1.addEventListener("click", function () {
+            alert("클릭됨");
+            let e2 = document.querySelector("h1");
+            e2.remove();
+        });// click(이벤트유형) ,function(아무이름사용가능)동작하는
+    </script>
+</body>
+
+</html>

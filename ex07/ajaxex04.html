@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+</head>
+
+<body>
+    <h1>게시글 쓰기</h1>
+    <hr>
+    <!-- creating a resource : title / body / userId 지정되있음 -->
+    <form>
+        <input type="text" id="title" placeholder="Enter title">
+        <input type="text" id="body" placeholder="Enter body">
+        <input type="text" id="userId" placeholder="Enter userId">
+        <!-- 버튼 타입은 꼭 지정 안해 놓으면 submit으로 지정된다 -->
+        <button type="button" onclick="save()">글쓰기</button>
+    </form>
+    <script>
+        function save() {
+            // 1. 값 받아오기
+            let post = {
+                title: $("#title").val(),
+                body: $("#body").val(),
+                userId: $("#userId").val()
+            };
+            // 2. 통신하기
+            //$.ajax().done().fail(); = fetch().then().then();
+            $.ajax({
+                type: "post",
+                url: "https://jsonplaceholder.typicode.com/posts",
+                data: JSON.stringify(post),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                    // contentType:"application/json; charset=UTF-8" = headers사용과 동일
+                },
+                dataType: "json"
+            }).done((res) => {
+                console.log("id", res.id);
+                console.log("title", res.title);
+                console.log("body", res.body);
+                console.log("userId", res.userId);
+            }).fail((err) => {
+                console.log(err);
+            });
+
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

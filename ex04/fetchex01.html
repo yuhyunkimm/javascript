@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="postBox">
+        <table id="postBox-table" border="1">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성자</th>
+            </tr>
+        </table>
+    </div>
+    <button onclick="down()">다운로드</button>
+
+    <script>
+        async function down() {
+            let response = await fetch("http://192.168.200.58:8080/init/post", {
+                method: "get"
+            })
+            let jsObject = await response.json();
+
+            render(jsObject);
+        }
+
+        function makeTr(post) {
+            let tr = document.createElement("tr"); //tr 마크를 넣어줌 .
+            tr.innerHTML = `
+                <td>${post.id}</td>
+                <td>${post.title}</td>
+                <td>${post.content}</td>
+                <td>${post.user.username}</td>
+                `;
+            return tr;
+        }
+
+        function render(jsObject) {
+            let tableEl = document.querySelector("#postBox-table");
+            for (let i = 0; i < jsObject.data.length; i++) {
+                let el = makeTr(jsObject.data[i]);
+                tableEl.append(el);
+            }
+        }
+    </script>
+</body>
+
+</html>
